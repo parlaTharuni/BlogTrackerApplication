@@ -1,0 +1,39 @@
+﻿﻿@model AppUILayer.Models.LoginViewModel
+@{
+    ViewBag.Title = "Admin Login";
+}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 m-auto">
+            <h2 class="">Admin Login</h2>
+            @using (Html.BeginForm("Login", "Admin", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EmailId, "Enter Email:")
+                    @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, "Enter Password:")
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                </div>
+
+                <button type="submit" class="btn btn-primary">Login</button>
+            }
+
+            @if (ViewData.ModelState.ContainsKey("LoginFailed") && ViewData.ModelState["LoginFailed"].Errors.Count > 0)
+            {
+                <script>
+                    // Add JavaScript code to hide the error message after 10 seconds
+                    setTimeout(function () {
+                        $(".text-danger").fadeOut("slow");
+                    }, 10000);
+                </script>
+            }
+        </div>
+    </div>
+</div>

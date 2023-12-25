@@ -1,0 +1,45 @@
+﻿@model IEnumerable<AppUILayer.Models.BlogViewModel>
+@{
+    ViewBag.Title = "Home";
+    string loggedInUserName = Session["UserName"] as string;
+}
+<div class="container p-2">
+    <h2 class="ms-3">Welcome, @loggedInUserName!</h2>
+    <!-- Add Button -->
+    <a href="@Url.Action("Create", "Blog")" class="btn btn-primary mb-3 ms-3">Add Blog</a>
+    @if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
+    {
+        <div id="error-message" class="col-6 alert alert-danger mt-3">
+            @TempData["ErrorMessage"]
+        </div>
+
+        <script>
+            // Hide the error message after 20 seconds
+            setTimeout(function () {
+                $(".alert-danger").fadeOut("slow");
+            }, 10000);
+        </script>
+    }
+    <!-- Display Blogs in Cards -->
+    <div class="row">
+        @foreach (var blog in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Title :@blog.Title</h5>
+                        <p class="card-text">Date :@blog.DateOfCreation.ToString("yyyy-MM-dd")</p>
+                        <p class="card-text">Subject :@blog.Subject</p>
+
+                        <!-- Edit and Delete Buttons -->
+                        <div class="btn-group">
+                            <a href="@Url.Action("Edit", "Employee", new { id = blog.Id })" class="btn btn-info me-2">Edit</a>
+                            <a href="@Url.Action("Delete", "Employee", new { id = blog.Id})" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
